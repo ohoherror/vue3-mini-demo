@@ -86,7 +86,6 @@ export function trigger(target, key) {
 
 export const extend = Object.assign;
 export function effect(fn, options: any = {}) {
-    console.log('被调用了吗')
     const _effect = new ReactiveEffect(fn)
     extend(_effect, options)
     _effect.run()
