@@ -66,7 +66,7 @@ export function track(target, key) {
     }
 }
 function isTracking() {
-    return shouldTrack
+    return shouldTrack && activeEffect !== undefined
 }
 //触发依赖
 export function trigger(target, key) {
