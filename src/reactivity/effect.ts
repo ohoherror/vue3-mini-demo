@@ -1,4 +1,4 @@
-class ReactiveEffect {
+export class ReactiveEffect {
     active = true
     deps = []
     public onStop?: () => void;
