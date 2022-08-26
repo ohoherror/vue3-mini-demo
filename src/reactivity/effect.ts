@@ -1,3 +1,5 @@
+let activeEffect
+let shouldTrack = false
 export class ReactiveEffect {
     active = true
     deps = []
@@ -6,16 +8,24 @@ export class ReactiveEffect {
         console.log("创建 ReactiveEffect 对象");
     }
     run() {
+        if (!this.active) {
+            return this.fn()
+        }
+        shouldTrack = true
         activeEffect = this
-        return this.fn()
+        const r = this.fn();
+        shouldTrack = false
+        return r
     }
     stop() {
         if (this.active) {
             if (this.onStop) {
                 this.onStop()
             }
+
             cleanupEffect(this);
             this.active = false
+
         }
     }
 }
@@ -38,6 +48,7 @@ const targetMap = new Map()
 //收集依赖 放置在targetMap里面
 export function track(target, key) {
     let depsMap = targetMap.get(target)
+    if (!isTracking()) return
     if (!depsMap) {
         depsMap = new Map()
         targetMap.set(target, depsMap)
@@ -54,6 +65,9 @@ export function track(target, key) {
         }
     }
 }
+function isTracking() {
+    return shouldTrack
+}
 //触发依赖
 export function trigger(target, key) {
     let depsMap = targetMap.get(target)
@@ -69,9 +83,10 @@ export function trigger(target, key) {
 
     }
 }
-let activeEffect
+
 export const extend = Object.assign;
 export function effect(fn, options: any = {}) {
+    console.log('被调用了吗')
     const _effect = new ReactiveEffect(fn)
     extend(_effect, options)
     _effect.run()

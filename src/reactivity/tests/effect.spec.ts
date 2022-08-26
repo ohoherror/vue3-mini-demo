@@ -106,8 +106,9 @@ describe('effect', () => {
         obj.prop = 2
         expect(dummy).toBe(2)
         stop(runner)
-        obj.prop = 3
-
+        obj.prop++
+        expect(obj.prop).toBe(3)
+        //obj的值已经改变了，只是没有收集到依赖，不能运行run函数，将obj.prop的值赋给dummy
         expect(dummy).toBe(2)
         runner()
         expect(dummy).toBe(3)
