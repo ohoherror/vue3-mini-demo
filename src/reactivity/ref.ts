@@ -17,7 +17,6 @@ export class RefImpl {
         if (newValue === this._value) return
         this._rawValue = newValue
         triggerEffects(this.dep)
-        // return newValue
     }
 }
 function trackRefValue(ref) {
