@@ -58,6 +58,12 @@ export function track(target, key) {
         dep = new Set()
         depsMap.set(key, dep)
     }
+    trackEffects(dep)
+}
+
+export function trackEffects(dep) {
+    console.log(dep)
+    if (!isTracking()) return
     if (!dep.has(activeEffect)) {
         dep.add(activeEffect);
         if (activeEffect) {
@@ -65,7 +71,7 @@ export function track(target, key) {
         }
     }
 }
-function isTracking() {
+export function isTracking() {
     return shouldTrack && activeEffect !== undefined
 }
 //触发依赖
@@ -73,6 +79,10 @@ export function trigger(target, key) {
     let depsMap = targetMap.get(target)
     let dep = depsMap.get(key)
     console.log(dep)
+    triggerEffects(dep)
+}
+
+export function triggerEffects(dep) {
     for (const effect of dep) {
         if (effect.scheduler) {
             effect.scheduler()

@@ -1,4 +1,4 @@
-import { readonly, reactive, isReadonly, isReactive } from "../reactive";
+import { readonly, reactive, isReadonly, isReactive, isProxy } from "../reactive";
 
 describe("readonly", () => {
     it("should make nested values readonly", () => {
@@ -8,16 +8,16 @@ describe("readonly", () => {
         expect(wrapped).not.toBe(original);
         expect(wrapped.foo).toBe(1);
         wrapped.bar.baz = 3
+        expect(wrapped.bar.baz).toBe(2)
+        expect(isProxy(wrapped)).toBe(true)
         expect(isReadonly(wrapped)).toBe(true)
-        expect(wrapped.bar.baz).toBe(3);
+        expect(isReadonly(wrapped.bar)).toBe(true);
     });
 
     it("should call console.warn when set", () => {
         console.warn = jest.fn();
-        const user = readonly({
-            age: 10,
-        });
-
+        const obj = { age: 10, }
+        const user = readonly(obj);
         user.age = 11;
         expect(console.warn).toHaveBeenCalled();
     });

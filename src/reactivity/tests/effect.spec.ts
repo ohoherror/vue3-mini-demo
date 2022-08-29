@@ -1,4 +1,4 @@
-import { reactive } from '../reactive'
+import { isReactive, reactive } from '../reactive'
 import { effect, stop } from '../effect'
 
 describe('effect', () => {
@@ -47,15 +47,17 @@ describe('effect', () => {
         expect(dummy2).toBe(1)
     })
 
-    // it("should observe nested properties", () => {
-    //     let dummy;
-    //     const counter = reactive({ nested: { num: 0 } })
-    //     effect(() => (dummy = counter.nested.num))
-
-    //     expect(dummy).toBe(0)
-    //     counter.nested.num = 8
-    //     expect(dummy).toBe(8)
-    // })
+    it("should observe nested properties", () => {
+        let dummy;
+        const counter = reactive({ nested: { num: 0 }, arr: [{ name: 'xc' }] })
+        effect(() => (dummy = counter.nested.num))
+        expect(isReactive(counter)).toBe(true)
+        expect(dummy).toBe(0)
+        counter.nested.num = 8
+        expect(isReactive(counter.nested)).toBe(true)
+        expect(isReactive(counter.arr[0])).toBe(true)
+        expect(dummy).toBe(8)
+    })
 
     it("should return runner", () => {
         let foo = 10
