@@ -1,4 +1,5 @@
 import { trackEffects, triggerEffects, isTracking } from "./effect"
+import { hasChanged } from '../shared'
 export class RefImpl {
     public _rawValue
     public dep
@@ -14,7 +15,7 @@ export class RefImpl {
     }
     set value(newValue) {
         console.log(newValue)
-        if (newValue === this._value) return
+        if (!hasChanged(newValue, this._value)) return
         this._rawValue = newValue
         triggerEffects(this.dep)
     }
