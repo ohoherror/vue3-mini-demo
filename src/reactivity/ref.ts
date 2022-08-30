@@ -2,13 +2,15 @@ import { trackEffects, triggerEffects, isTracking } from "./effect"
 import { hasChanged, isObject } from '../shared'
 import { reactive } from "./reactive"
 export class RefImpl {
-    private _rawValue
-    public dep
-    private _value
-    constructor(value) {
+    private _rawValue: any
+    public dep: any
+    public v_is_ref: any
+    private _value: any
+    constructor(value: any) {
         this._rawValue = value;
         this._value = convert(value);
         this.dep = new Set()
+        this.v_is_ref = true
     }
     get value() {
         trackRefValue(this)
@@ -27,8 +29,16 @@ function trackRefValue(ref) {
         trackEffects(ref.dep);
     }
 }
-export const ref = (row) => {
-    return new RefImpl(row)
+export const ref = (raw) => {
+    return new RefImpl(raw)
+}
+
+export const isRef = (raw) => {
+    return !!raw['v_is_ref']
+}
+
+export const unRef = (raw) => {
+    return isRef(raw) ? raw.value : raw
 }
 
 function convert(value) {
