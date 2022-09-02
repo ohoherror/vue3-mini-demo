@@ -25,7 +25,6 @@ export class ReactiveEffect {
 
             cleanupEffect(this);
             this.active = false
-
         }
     }
 }
