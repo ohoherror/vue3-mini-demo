@@ -5,7 +5,7 @@ export function render(vnode, container) {
     patch(vnode, container)
 }
 
-function patch(vnode, container) {
+export function patch(vnode, container) {
     if (typeof vnode.type === 'string') {
         processElement(vnode, container)
     } else if (isObject(vnode.type)) {
@@ -21,15 +21,19 @@ function processElement(vnode, container) {
 function mountElement(vnode, container) {
     const { type: domElType, props, children } = vnode
     const domEl = document.createElement(domElType)
-    for (const prop in props) {
-        domEl.setAttribute(prop, props[prop])
+    if (isObject(props)) {
+        for (const prop in props) {
+            domEl.setAttribute(prop, props[prop])
+        }
     }
+
 
     if (typeof children === 'string') {
         domEl.textContent = children
     } else if (Array.isArray(children)) {
         mountChildren(vnode, domEl)
     }
+
     container.appendChild(domEl)
 }
 

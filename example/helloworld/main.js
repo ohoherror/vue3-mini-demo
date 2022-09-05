@@ -1,3 +1,5 @@
-import App from './App.js'
-// 和 Vue3 的 API 命名方式一样
-createApp(App).mount('#app')
+import { createApp } from "../../lib/guide-mini-vue.esm.js";
+import { App } from "./App.js";
+
+// const rootContainer = document.querySelector("#app");
+createApp(App).mount('#app');

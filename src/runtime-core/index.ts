@@ -1,3 +1,2 @@
-//vue3
-// createApp(App).mount('#app')
-export { createApp } from './createApp'
+export { createApp } from "./createApp";
+export { h } from "./h";

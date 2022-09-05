@@ -29,7 +29,7 @@ function handleSetupResult(instance, setupResult) {
 }
 
 function finishComponentSetup(instance) {
-    const component = instance.type
+    const component = instance.vnode.type
     if (!instance.render) {
         instance.render = component.render
     }
