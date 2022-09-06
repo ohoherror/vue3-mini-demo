@@ -1,4 +1,4 @@
-import { createComponentInstance, setupComponent, setupRenderEffect } from './componment'
+import { createComponentInstance, setupComponent } from './componment'
 import { isObject } from '../shared'
 
 export function render(vnode, container) {
@@ -11,7 +11,6 @@ export function patch(vnode, container) {
     } else if (isObject(vnode.type)) {
         processComponent(vnode, container)
     }
-
 }
 
 function processElement(vnode, container) {
@@ -53,3 +52,8 @@ function mountComponent(vnode, container) {
     setupRenderEffect(instance, container)
 }
 
+export function setupRenderEffect(instance, container) {
+    // const { setupState } = instance
+    const subTree = instance.render.call(instance.proxy)
+    patch(subTree, container)
+}
