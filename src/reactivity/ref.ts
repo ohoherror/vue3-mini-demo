@@ -1,5 +1,5 @@
 import { trackEffects, triggerEffects, isTracking } from "./effect"
-import { hasChanged, isObject, extend } from '../shared'
+import { hasChanged, isObject, extend } from '../shared/index'
 import { reactive } from "./reactive"
 
 export class RefImpl {

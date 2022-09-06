@@ -4,7 +4,8 @@ export function createComponentInstance(vnode) {
     const component = {
         vnode,
         type: vnode.type,
-        setupState: {}
+        setupState: {},
+        el: null
     }
     return component
 }
