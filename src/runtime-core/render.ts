@@ -2,6 +2,7 @@ import { createComponentInstance, setupComponent } from './componment'
 import { isObject } from '../shared/index'
 import { ShapeFlags } from '../shared/shapeFlags'
 
+
 export function render(vnode, container) {
     patch(vnode, container)
 }
