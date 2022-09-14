@@ -1,4 +1,5 @@
 import { h } from "../../lib/guide-mini-vue.esm.js";
+import { Foo } from './Foo.js'
 
 window.self = null
 export const App = {
@@ -7,9 +8,17 @@ export const App = {
         window.self = this
         // ui
         return h("div", {
-            id: "root",
-            class: ["red"],
-        }, 'hi ' + this.name + ' ' + this.msg);
+            class: 'red', // event
+            onClick() {
+                console.log('click')
+            },
+            onMousedown() {
+                console.log('mousedown')
+            },
+        }, [
+            // 挂载一个组件
+            h(Foo, { count: 1 }),
+        ]);
         // [h("p", { class: "red" }, "hi"), h("p", { class: "blue" }, 'hi' + this.msg)]
         // return h("div", { 'style': "color:#00f" }, 'rueueuurur')
     },

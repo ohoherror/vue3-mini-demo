@@ -25,7 +25,13 @@ function mountElement(vnode, container) {
     // const domEl = document.createElement(domElType)
     if (isObject(props)) {
         for (const prop in props) {
-            el.setAttribute(prop, props[prop])
+            if (isOn(prop)) {
+                const event = prop.slice(2).toLowerCase()
+                el.addEventListener(event, props[prop])
+            } else {
+                el.setAttribute(prop, props[prop])
+            }
+
         }
     }
     if (shapeFlags & ShapeFlags.TEXT_CHILDREN) {
@@ -35,6 +41,8 @@ function mountElement(vnode, container) {
     }
     container.appendChild(el)
 }
+
+const isOn = (key: string) => /^on[A-Z]/.test(key)
 
 function mountChildren(vnode, container) {
     vnode.children.forEach(vnode => {
