@@ -6,8 +6,9 @@ export const Foo = {
         // console.log(props)
         const handleClick = () => {
             // console.log('handleClick')
-            emit('add')
+            emit('add', 'woshizhi')
             // props.onAdd()
+            emit('add-count', 1)
         }
         return {
             handleClick

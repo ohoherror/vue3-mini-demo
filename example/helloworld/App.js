@@ -17,18 +17,24 @@ export const App = {
             // },
         }, [
             // 挂载一个组件
-            h(Foo, { onAdd: this.onAdd }),
+            h(Foo, { onAdd: this.onAdd, onAddCount: this.onAddCount }),
         ]);
         // [h("p", { class: "red" }, "hi"), h("p", { class: "blue" }, 'hi' + this.msg)]
         // return h("div", { 'style': "color:#00f" }, 'rueueuurur')
     },
 
     setup() {
-        function onAdd() {
+        function onAdd(value) {
+            console.log(value)
             console.log('onAdd')
+        }
+        function onAddCount(y) {
+            console.log(3 + y)
+            return 3 + y
         }
         return {
             onAdd,
+            onAddCount,
             msg: "mini-vue",
             name: 'xc'
         };
