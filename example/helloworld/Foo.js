@@ -1,12 +1,20 @@
 import { h } from "../../lib/guide-mini-vue.esm.js";
 
 export const Foo = {
-    setup(props) {
-        console.log(props)
-        props.count++
+    setup(props, { emit }) {
+        // { emit }
+        // console.log(props)
+        const handleClick = () => {
+            // console.log('handleClick')
+            emit('add')
+            // props.onAdd()
+        }
+        return {
+            handleClick
+        }
     },
+    // onClick: this.handleClick
     render() {
-        console.log(this.$el)
-        return h('div', {}, 'Hello World ' + this.count)
+        return h('button', { onClick: this.handleClick }, '点击我 ')
     }
 }

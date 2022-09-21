@@ -9,22 +9,26 @@ export const App = {
         // ui
         return h("div", {
             class: 'red', // event
-            onClick() {
-                console.log('click')
-            },
-            onMousedown() {
-                console.log('mousedown')
-            },
+            // onClick() {
+            //     console.log('click')
+            // },
+            // onMousedown() {
+            //     console.log('mousedown')
+            // },
         }, [
             // 挂载一个组件
-            h(Foo, { count: 1 }),
+            h(Foo, { onAdd: this.onAdd }),
         ]);
         // [h("p", { class: "red" }, "hi"), h("p", { class: "blue" }, 'hi' + this.msg)]
         // return h("div", { 'style': "color:#00f" }, 'rueueuurur')
     },
 
     setup() {
+        function onAdd() {
+            console.log('onAdd')
+        }
         return {
+            onAdd,
             msg: "mini-vue",
             name: 'xc'
         };

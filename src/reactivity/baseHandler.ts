@@ -62,7 +62,7 @@ export const shallowReadonlyHandlers = {
     get: shallowReadonlyGet,
     set(target, key) {
         console.warn(
-            `key :"${String(key)}" set 失败，因为 target 是 readonly 类型`,
+            `key :"${String(key)}" set 失败，因为 target 是 shallowReadonly 类型`,
             target
         );
 
