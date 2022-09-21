@@ -7,18 +7,7 @@ export const App = {
     render() {
         window.self = this
         // ui
-        return h("div", {
-            class: 'red', // event
-            // onClick() {
-            //     console.log('click')
-            // },
-            // onMousedown() {
-            //     console.log('mousedown')
-            // },
-        }, [
-            // 挂载一个组件
-            h(Foo, { onAdd: this.onAdd, onAddCount: this.onAddCount }),
-        ]);
+        return h('div', {}, [h(Foo, {}, h('div', {}, '123'))])
         // [h("p", { class: "red" }, "hi"), h("p", { class: "blue" }, 'hi' + this.msg)]
         // return h("div", { 'style': "color:#00f" }, 'rueueuurur')
     },

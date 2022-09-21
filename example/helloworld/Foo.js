@@ -6,9 +6,9 @@ export const Foo = {
         // console.log(props)
         const handleClick = () => {
             // console.log('handleClick')
-            emit('add', 'woshizhi')
-            // props.onAdd()
-            emit('add-count', 1)
+            // emit('add', 'woshizhi')
+            // // props.onAdd()
+            // emit('add-count', 1)
         }
         return {
             handleClick
@@ -16,6 +16,6 @@ export const Foo = {
     },
     // onClick: this.handleClick
     render() {
-        return h('button', { onClick: this.handleClick }, '点击我 ')
+        return h('div', { onClick: this.handleClick }, this.$slots)
     }
 }
