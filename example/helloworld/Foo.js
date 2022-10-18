@@ -16,6 +16,7 @@ export const Foo = {
     },
     // onClick: this.handleClick
     render() {
-        return h('div', { onClick: this.handleClick }, this.$slots)
+        console.log(this.$slots)
+        return h('div', {}, this.$slots.children)
     }
 }
