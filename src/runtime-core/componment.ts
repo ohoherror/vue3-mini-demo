@@ -30,8 +30,10 @@ function setupStatefulComponent(instance) {
     const { setup } = Component
     instance.proxy = new Proxy(instance, PublicInstanceProxyHandlers);
     if (setup) {
+        setCurrentInstance(instance)
         const setupResult = setup(shallowReadonly(instance.props), { emit: instance.emit })
         handleSetupResult(instance, setupResult)
+        setCurrentInstance(null)
     }
 }
 
@@ -48,7 +50,15 @@ function finishComponentSetup(instance) {
         instance.render = component.render
     }
 }
+let currentInstance = null;
 
+export function getCurrentInstance() {
+    return currentInstance
+}
+
+export function setCurrentInstance(instance) {
+    currentInstance = instance
+}
 
 
 
