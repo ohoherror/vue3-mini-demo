@@ -1,64 +1,70 @@
-import { PublicInstanceProxyHandlers } from './componentPublicInstance'
-import { initProps } from './componentProps'
-import { initSlots } from './componentSlots'
-import { shallowReadonly } from '../reactivity/reactive'
-import { emit } from './componentEmit'
+import { shallowReadonly } from "../reactivity/reactive";
+import { emit } from "./componentEmit";
+import { initProps } from "./componentProps";
+import { PublicInstanceProxyHandlers } from "./componentPublicInstance";
+import { initSlots } from "./componentSlots";
 
-export function createComponentInstance(vnode) {
+export function createComponentInstance(vnode, parent) {
     const component = {
         vnode,
         type: vnode.type,
         setupState: {},
-        el: null,
-        props: null,
-        emit: () => { },
+        props: {},
         slots: {},
-    }
-    component.emit = emit.bind(null, component) as any
-    return component
+        provides: parent ? parent.provides : {},
+        parent,
+        emit: () => { },
+    };
+
+    component.emit = emit.bind(null, component) as any;
+
+    return component;
 }
 
-
-export function setupComponent(instance, container) {
-    initProps(instance, instance.vnode.props)
-    initSlots(instance, instance.vnode.children)
-    setupStatefulComponent(instance)
+export function setupComponent(instance) {
+    initProps(instance, instance.vnode.props);
+    initSlots(instance, instance.vnode.children);
+    setupStatefulComponent(instance);
 }
 
-function setupStatefulComponent(instance) {
+function setupStatefulComponent(instance: any) {
     const Component = instance.type;
-    const { setup } = Component
-    instance.proxy = new Proxy(instance, PublicInstanceProxyHandlers);
+
+    instance.proxy = new Proxy({ _: instance }, PublicInstanceProxyHandlers);
+
+    const { setup } = Component;
+
     if (setup) {
-        setCurrentInstance(instance)
-        const setupResult = setup(shallowReadonly(instance.props), { emit: instance.emit })
-        handleSetupResult(instance, setupResult)
-        setCurrentInstance(null)
+        setCurrentInstance(instance);
+        const setupResult = setup(shallowReadonly(instance.props), {
+            emit: instance.emit,
+        });
+        setCurrentInstance(null);
+
+        handleSetupResult(instance, setupResult);
     }
 }
 
-function handleSetupResult(instance, setupResult) {
-    if (typeof setupResult === 'object') {
-        instance.setupState = setupResult
+function handleSetupResult(instance, setupResult: any) {
+    if (typeof setupResult === "object") {
+        instance.setupState = setupResult;
     }
-    finishComponentSetup(instance)
+
+    finishComponentSetup(instance);
 }
 
-function finishComponentSetup(instance) {
-    const component = instance.type
-    if (!instance.render) {
-        instance.render = component.render
-    }
+function finishComponentSetup(instance: any) {
+    const Component = instance.type;
+
+    instance.render = Component.render;
 }
-let currentInstance = null;
+
+let currentInstance: any = null;
 
 export function getCurrentInstance() {
-    return currentInstance
+    return currentInstance;
 }
 
 export function setCurrentInstance(instance) {
-    currentInstance = instance
+    currentInstance = instance;
 }
-
-
-
