@@ -59,7 +59,7 @@ function finishComponentSetup(instance: any) {
     instance.render = Component.render;
 }
 
-let currentInstance: any = null;
+let currentInstance = null;
 
 export function getCurrentInstance() {
     return currentInstance;

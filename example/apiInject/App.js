@@ -1,41 +1,58 @@
-import { h, provide, inject } from '../../lib/guide-mini-vue.esm.js'
+import { h, provide, inject } from "../../lib/guide-mini-vue.esm.js";
 
 const Provider = {
-    name: "App",
-    render() {
-        return h("div", {}, [h("div", {}, "Provider"), h(Provider2)])
-    },
+    name: "Provider",
     setup() {
-        provide("foo", "fooVal")
-        provide("bar", "barVal")
-    }
-}
+        provide("foo", "fooVal");
+        provide("bar", "barVal");
+    },
+    render() {
+        return h("div", {}, [h("p", {}, "Provider"), h(ProviderTwo)]);
+    },
+};
 
-const Provider2 = {
-    render() {
-        return h("div", {}, [h("div", {}, `Provider2 foo:${this.foo}`), h(Consumer)])
-    },
+const ProviderTwo = {
+    name: "ProviderTwo",
     setup() {
-        provide('foo', 'foo2')
+        provide("foo", "fooTwo");
         const foo = inject("foo");
-        return foo
+
+        return {
+            foo,
+        };
     },
-}
+    render() {
+        return h("div", {}, [
+            h("p", {}, `ProviderTwo foo:${this.foo}`),
+            h(Consumer),
+        ]);
+    },
+};
 
 const Consumer = {
+    name: "Consumer",
     setup() {
-        const foo = inject("foo")
-        const bar = inject("bar")
+        const foo = inject("foo");
+        const bar = inject("bar");
+        const baz = inject("baz", "bazDefault");
+        // const baz = inject("baz", () => "bazDefault");
 
         return {
             foo,
             bar,
-        }
+            baz,
+        };
     },
-    render() {
-        return h("div", {}, `Consumer:-${this.foo}-${this.bar}`)
-    }
 
+    render() {
+        return h("div", {}, `Consumer: - ${this.foo} - ${this.bar} - ${this.baz}`);
+    },
 };
 
-export const App = Provider
+export default {
+    name: "App",
+    setup() { },
+    render() {
+        return h("div", {}, [h("p", {}, "apiInject"), h(Provider)]);
+    },
+};
